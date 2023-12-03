@@ -15,7 +15,6 @@ const Table = () => {
     async function getDeck() {
         const response = await axios.get('https://deckofcardsapi.com/api/deck/new/shuffle?count=1?shuffled=true')
         setData(response.data)
-        // console.log(response.data);
     }
 
     async function drawCards() {
@@ -30,6 +29,9 @@ const Table = () => {
 
         let scoreCard1Pl1 = responsePl1.data.cards[0].value
         let scoreCard2Pl1 = responsePl1.data.cards[1].value
+        let scoreCard1Pl2 = responsePl2.data.cards[0].value
+        let scoreCard2Pl2 = responsePl2.data.cards[1].value
+
 
         if (scoreCard1Pl1 === "JACK") {
             scoreCard1Pl1 = '11'
@@ -50,11 +52,6 @@ const Table = () => {
         } else if(scoreCard2Pl1 === "ACE") {
             scoreCard2Pl1 = '14'
         }
-        let scorePl1 = Number(scoreCard1Pl1) + Number(scoreCard2Pl1)
-        setCardValuePl1(scorePl1)
-
-        let scoreCard1Pl2 = responsePl2.data.cards[0].value
-        let scoreCard2Pl2 = responsePl2.data.cards[1].value
 
         if (scoreCard1Pl2 === "JACK") {
             scoreCard1Pl2 = '11'
@@ -75,41 +72,46 @@ const Table = () => {
         } else if(scoreCard2Pl2 === "ACE") {
             scoreCard2Pl2 = '14'
         }
+
+        let scorePl1 = Number(scoreCard1Pl1) + Number(scoreCard1Pl2)
         let scorePl2 = Number(scoreCard1Pl2) + Number(scoreCard2Pl2)
+
+        setCardValuePl1(scorePl1)
         setCardValuePl2(scorePl2)
 
-        setDifference(21 - scorePl1)
-        setDifference2(21 - scorePl2)
+        let df1 = 21 - scorePl1
+        let  df2 = 21 - scorePl2
+
+        if (df1 < 0) {
+            setDifference(df1 * (-1))
+        }else {
+            setDifference((df1))
+        }
+        if (df2 < 0) {
+            setDifference2(df2 * (-1))
+        } else {
+            setDifference2(df2)
+        }
+
+        //
+        // setDifference(21 - scorePl1)
+        // setDifference2(21 - scorePl2)
 
 
 
     }
 
     function setVictoryRound() {
-
-        
-        if (difference < 0) {
-            setDifference(prev => prev * (-1))
-        }  
-
-        if (difference2 < 0) {
-            console.log('adawdawd');
-        }
-
         if (difference < difference2) {
             alert('pl1')
-            // console.log(difference);
-            // console.log(difference2);
         }
         
         if (difference > difference2) {
             alert('pl2')
-            // console.log(difference);
-            // console.log(difference2);
         }
 
         console.log(difference)
-
+        console.log(difference2)
     }
 
     useEffect(() => {
