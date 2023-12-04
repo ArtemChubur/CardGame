@@ -2,12 +2,23 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
 const Table = () => {
+    const enemyСards = [
+        {
+            id: 0,
+            imgUrl: 'https://deckofcardsapi.com/static/img/back.png'
+        },
+        {
+            id: 1,
+            imgUrl: 'https://deckofcardsapi.com/static/img/back.png'
+        }
+    ]
 
     const[data, setData] = useState([])
     const [cards, setCards] = useState([])
     const [cards2, setCards2] = useState([])
     const [cardValuePl1, setCardValuePl1] = useState(0)
     const [cardValuePl2, setCardValuePl2] = useState(0)
+    const [cardsGivenAway, setCardsGivenAway] = useState(false)
 
     const [difference, setDifference] = useState(0)
     const [difference2, setDifference2] = useState(0)
@@ -24,8 +35,9 @@ const Table = () => {
         try {
             setCards(responsePl1.data.cards)
             setCards2(responsePl2.data.cards)
+            setCardsGivenAway(true)
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
 
         let scoreCard1Pl1 = responsePl1.data.cards[0].value
@@ -74,14 +86,38 @@ const Table = () => {
             scoreCard2Pl2 = '14'
         }
 
-        let scorePl1 = Number(scoreCard1Pl1) + Number(scoreCard1Pl2)
-        let scorePl2 = Number(scoreCard1Pl2) + Number(scoreCard2Pl2)
+        let scorePl1 = (Number(scoreCard1Pl1) + Number(scoreCard2Pl1))
+        let scorePl2 = (Number(scoreCard1Pl2) + Number(scoreCard2Pl2))
 
         setCardValuePl1(scorePl1)
         setCardValuePl2(scorePl2)
 
         setDifference(21 - scorePl1)
         setDifference2(21 - scorePl2)
+    }
+
+    async function drawAdditionalCard() {
+
+        const response = await axios.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=1`)
+        try {
+            const data = response.data.cards[0]
+            let cardValue = data.value
+            if (cardValue === "JACK") {
+                cardValue = '11'
+            } else if(cardValue === "QUEEN") {
+                cardValue = '12'
+            } else if(cardValue === "KING") {
+                cardValue = '13'
+            } else if(cardValue === "ACE") {
+                cardValue = '14'
+            }
+            setDifference(difference - Number(cardValue))
+
+            setCardValuePl1(cardValuePl1 + Number(cardValue))
+            cards.push(data)
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     function setVictoryRound() {
@@ -96,9 +132,8 @@ const Table = () => {
         } else if (difference < difference2) {
             alert('Игрок 1 win')
         }
-
-        console.log(difference)
-        console.log(difference2)
+        console.log(difference, difference2)
+        // setTimeout(() => {drawCards()}, 2000)
     }
 
     useEffect(() => {
@@ -107,16 +142,25 @@ const Table = () => {
 
     return (
         <div>
-            <div>{data.deck_id}</div>
             <div>
                 <button onClick={drawCards}>Получить карты</button>
+                <button onClick={drawAdditionalCard}>Взять еще карту</button>
                 <button onClick={setVictoryRound}>Узнать победителя</button>
             </div>
             <div>{cardValuePl1}</div>
             <div>{cardValuePl2}</div>
             <div>
-                {cards.map((item, idx) => <img key={idx} src={item.image} alt="" />)}
-                {cards2.map((item, idx) => <img key={idx} src={item.image} alt="" />)}
+                <div>
+                    {cards.map((item, idx) => <img src={item.image} alt="" />)}
+                </div>
+                {cardsGivenAway ?
+                    <div>
+                        {/*{cards2.map((item, idx) => <img key={idx} src={item.image} alt="" />)}*/}
+                        {enemyСards.map((item, idx) => {return(<img key={idx} src={item.imgUrl} alt="" />) })}
+                    </div>
+                    :
+                    null
+                }
             </div>
         </div>
     )
