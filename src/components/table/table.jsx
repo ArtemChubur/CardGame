@@ -8,6 +8,7 @@ const Table = () => {
     const [cards2, setCards2] = useState([])
     const [cardValuePl1, setCardValuePl1] = useState(0)
     const [cardValuePl2, setCardValuePl2] = useState(0)
+
     const [difference, setDifference] = useState(0)
     const [difference2, setDifference2] = useState(0)
 
@@ -79,35 +80,21 @@ const Table = () => {
         setCardValuePl1(scorePl1)
         setCardValuePl2(scorePl2)
 
-        let df1 = 21 - scorePl1
-        let  df2 = 21 - scorePl2
-
-        if (df1 < 0) {
-            setDifference(df1 * (-1))
-        }else {
-            setDifference((df1))
-        }
-        if (df2 < 0) {
-            setDifference2(df2 * (-1))
-        } else {
-            setDifference2(df2)
-        }
-
-        //
-        // setDifference(21 - scorePl1)
-        // setDifference2(21 - scorePl2)
-
-
-
+        setDifference(21 - scorePl1)
+        setDifference2(21 - scorePl2)
     }
 
     function setVictoryRound() {
-        if (difference < difference2) {
-            alert('pl1')
-        }
-        
-        if (difference > difference2) {
-            alert('pl2')
+        if (difference < 0 && difference2 >= 0) {
+            alert('Игрок 2 win')
+        } else if (difference2 < 0 && difference >= 0) {
+            alert('Игрок 1 win')
+        } else if ((difference < 0 && difference2 < 0) || (difference === difference2)) {
+            alert('Ничья')
+        } else if (difference2 < difference) {
+            alert('Игрок 2 win')
+        } else if (difference < difference2) {
+            alert('Игрок 1 win')
         }
 
         console.log(difference)
