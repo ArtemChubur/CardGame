@@ -120,6 +120,28 @@ const Table = () => {
         }
     }
 
+    async function enemyDrawAdditionalCard() {
+        let random1 = (Math.random() * 2)
+        random1 = Math.round(random1)
+        for (let i = 0; i <= random1; i++) {
+            const response = await axios.get((`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=1`))
+            const datad = response.data.cards[0]
+            let cardValue = datad.value
+            if (cardValue === "JACK") {
+                cardValue = '11'
+            } else if(cardValue === "QUEEN") {
+                cardValue = '12'
+            } else if(cardValue === "KING") {
+                cardValue = '13'
+            } else if(cardValue === "ACE") {
+                cardValue = '14'
+            }
+            setDifference2(difference2 - Number(cardValue))
+            setCardValuePl2(cardValuePl2 + Number(cardValue))
+            cards2.push(datad)
+        }
+    }
+
     function setVictoryRound() {
         if (difference < 0 && difference2 >= 0) {
             alert('Игрок 2 win')
@@ -145,6 +167,7 @@ const Table = () => {
             <div>
                 <button onClick={drawCards}>Получить карты</button>
                 <button onClick={drawAdditionalCard}>Взять еще карту</button>
+                <button onClick={enemyDrawAdditionalCard}>Взять еще карту противник</button>
                 <button onClick={setVictoryRound}>Узнать победителя</button>
             </div>
             <div>{cardValuePl1}</div>
@@ -155,8 +178,8 @@ const Table = () => {
                 </div>
                 {cardsGivenAway ?
                     <div>
-                        {/*{cards2.map((item, idx) => <img key={idx} src={item.image} alt="" />)}*/}
-                        {enemyСards.map((item, idx) => {return(<img key={idx} src={item.imgUrl} alt="" />) })}
+                        {cards2.map((item, idx) => <img key={idx} src={item.image} alt="" />)}
+                        {/*{enemyСards.map((item, idx) => {return(<img key={idx} src={item.imgUrl} alt="" />) })}*/}
                     </div>
                     :
                     null
