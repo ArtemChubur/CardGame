@@ -4,11 +4,9 @@ import axios from 'axios';
 const Table = () => {
     const enemyСards = [
         {
-            id: 0,
             imgUrl: 'https://deckofcardsapi.com/static/img/back.png'
         },
         {
-            id: 1,
             imgUrl: 'https://deckofcardsapi.com/static/img/back.png'
         }
     ]
@@ -97,7 +95,6 @@ const Table = () => {
     }
 
     async function drawAdditionalCard() {
-
         const response = await axios.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=1`)
         try {
             const data = response.data.cards[0]
@@ -111,9 +108,8 @@ const Table = () => {
             } else if(cardValue === "ACE") {
                 cardValue = '14'
             }
-            setDifference(difference - Number(cardValue))
-
-            setCardValuePl1(cardValuePl1 + Number(cardValue))
+            setCardValuePl1(prevState => prevState + Number(cardValue))
+            setDifference(prevState => prevState - Number(cardValue))
             cards.push(data)
         } catch (e) {
             console.error(e)
@@ -121,24 +117,30 @@ const Table = () => {
     }
 
     async function enemyDrawAdditionalCard() {
-        let random1 = (Math.random() * 2)
-        random1 = Math.round(random1)
-        for (let i = 0; i <= random1; i++) {
-            const response = await axios.get((`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=1`))
-            const datad = response.data.cards[0]
-            let cardValue = datad.value
-            if (cardValue === "JACK") {
-                cardValue = '11'
-            } else if(cardValue === "QUEEN") {
-                cardValue = '12'
-            } else if(cardValue === "KING") {
-                cardValue = '13'
-            } else if(cardValue === "ACE") {
-                cardValue = '14'
-            }
-            setDifference2(difference2 - Number(cardValue))
-            setCardValuePl2(cardValuePl2 + Number(cardValue))
-            cards2.push(datad)
+        let random = (Math.random() * 2)
+        random = Math.round(random)
+        console.log(random)
+        const response = await axios.get(`https://deckofcardsapi.com/api/deck/${data.deck_id}/draw/?count=${random}`)
+        try {
+            const data = response.data.cards
+            data.map((item) => {
+                let cardValue = item.value
+                if (cardValue === "JACK") {
+                    cardValue = '11'
+                } else if(cardValue === "QUEEN") {
+                    cardValue = '12'
+                } else if(cardValue === "KING") {
+                    cardValue = '13'
+                } else if(cardValue === "ACE") {
+                    cardValue = '14'
+                }
+                setCardValuePl2(prevState => prevState + Number(cardValue))
+                cards2.push(item)
+
+            })
+
+        } catch (e) {
+            console.error(e.response.status)
         }
     }
 
@@ -154,8 +156,6 @@ const Table = () => {
         } else if (difference < difference2) {
             alert('Игрок 1 win')
         }
-        console.log(difference, difference2)
-        // setTimeout(() => {drawCards()}, 2000)
     }
 
     useEffect(() => {
@@ -170,8 +170,8 @@ const Table = () => {
                 <button onClick={enemyDrawAdditionalCard}>Взять еще карту противник</button>
                 <button onClick={setVictoryRound}>Узнать победителя</button>
             </div>
-            <div>{cardValuePl1}</div>
-            <div>{cardValuePl2}</div>
+            <div>{cardValuePl1} {difference}</div>
+            <div>{cardValuePl2} {difference2}</div>
             <div>
                 <div>
                     {cards.map((item, idx) => <img src={item.image} alt="" />)}
