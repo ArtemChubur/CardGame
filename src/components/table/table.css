@@ -60,5 +60,40 @@
 .winner {
     font-size: 36px;
     font-weight: 100px;
-    text-align: center;
+    position: absolute;
+    left: 25%;
+}
+
+@media screen and (orientation:landscape) {
+    .table{
+        overflow-y: scroll;
+    }
+
+    .enemyCards{
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+    }
+
+    .cards{
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+    }
+
+    .enemyCards img{
+        width: 130px;
+        display: flex;
+        justify-content: center;
+        
+    }
+
+    .Buttons{
+        margin: 5% 0 0 0;
+    }
+
+    .winner{
+        top: 40%;
+        left: 42%;
+    }
 }
