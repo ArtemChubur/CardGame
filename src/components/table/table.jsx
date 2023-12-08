@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 
 const Table = () => {
-    const enemyСards = [
+    const[data, setData] = useState([])
+    const [cards, setCards] = useState([])
+    const [cards2, setCards2] = useState([])
+    const [enemyСards, setEnemyCards] = useState([
         {
             imgUrl: 'https://deckofcardsapi.com/static/img/back.png'
         },
         {
             imgUrl: 'https://deckofcardsapi.com/static/img/back.png'
         }
-    ]
-
-    const[data, setData] = useState([])
-    const [cards, setCards] = useState([])
-    const [cards2, setCards2] = useState([])
+    ])
     const [cardValuePl1, setCardValuePl1] = useState(0)
     const [cardValuePl2, setCardValuePl2] = useState(0)
     const [cardsGivenAway, setCardsGivenAway] = useState(false)
@@ -117,6 +116,10 @@ const Table = () => {
     }
 
     async function enemyDrawAdditionalCard() {
+
+        const newCard = {
+            imgUrl: 'https://deckofcardsapi.com/static/img/back.png'
+        }
         let random = (Math.random() * 2)
         random = Math.round(random)
         console.log(random)
@@ -135,13 +138,18 @@ const Table = () => {
                     cardValue = '14'
                 }
                 setCardValuePl2(prevState => prevState + Number(cardValue))
+                enemyСards.push(newCard)
                 cards2.push(item)
 
             })
+            for (let i = 0; i < random; i++){
 
+            }
         } catch (e) {
             console.error(e.response.status)
         }
+        console.log(enemyСards)
+        return(enemyСards)
     }
 
     function setVictoryRound() {
@@ -179,7 +187,7 @@ const Table = () => {
                 {cardsGivenAway ?
                     <div>
                         {cards2.map((item, idx) => <img key={idx} src={item.image} alt="" />)}
-                        {/*{enemyСards.map((item, idx) => {return(<img key={idx} src={item.imgUrl} alt="" />) })}*/}
+                        {enemyСards.map((item, idx) => {return(<img key={idx} src={item.imgUrl} alt="" />) })}
                     </div>
                     :
                     null
