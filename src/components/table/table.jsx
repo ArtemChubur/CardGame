@@ -140,11 +140,8 @@ const Table = () => {
                 setCardValuePl2(prevState => prevState + Number(cardValue))
                 enemyСards.push(newCard)
                 cards2.push(item)
-
+                setDifference2(prevState => prevState - Number(cardValue))
             })
-            for (let i = 0; i < random; i++){
-
-            }
         } catch (e) {
             console.error(e.response.status)
         }
@@ -186,7 +183,7 @@ const Table = () => {
                 </div>
                 {cardsGivenAway ?
                     <div>
-                        {cards2.map((item, idx) => <img key={idx} src={item.image} alt="" />)}
+                        {/* {cards2.map((item, idx) => <img key={idx} src={item.image} alt="" />)} */}
                         {enemyСards.map((item, idx) => {return(<img key={idx} src={item.imgUrl} alt="" />) })}
                     </div>
                     :
