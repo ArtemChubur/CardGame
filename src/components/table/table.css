@@ -1,4 +1,64 @@
+.table {
+    background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlSw6xM6feYm3ijQLXkxbydEMXtAorfoYueQ&usqp=CAU');
+    background-size: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.enemyCards{
+    display: flex;
+    /* justify-content: center; */
+    overflow-x: scroll;
+    z-index: 1;
+}
+
+.enemyCards img{
+    width: 200px;
+}
+
 .cards{
     display: flex;
+    /* position: absolute;
+    bottom: -10%;
+    left: 15%; */
+    /* justify-content: center; */
+    /* margin: 0 0 0 16%; */
+    overflow-x: scroll;
+    overflow-x: scroll;
+    height: 300px;
+    
+}
+
+.cards img{
+    width: 190px;
+    z-index: 1;
+}
+
+.Buttons {
+    /* padding: 80% 0 0 0; */
+    margin: 20% 0 0 0;
+    display: flex;
     justify-content: space-evenly;
+}
+
+.Buttons button{
+    width: 120px;
+    border-radius: 30px;
+}
+
+.card3 {
+    width: 30px;
+}
+
+.score p{
+    /* margin: 1% 0 0 0; */
+    text-align: center;
+    font-size: 36px;
+    
+}
+
+.winner {
+    font-size: 36px;
+    font-weight: 100px;
+    text-align: center;
 }
