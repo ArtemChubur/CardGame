@@ -148,7 +148,7 @@ const Table = () => {
                     cardValue = '14'
                 }
                 setCardValuePl2(prevState => prevState + Number(cardValue))
-                enemyСards.push(newCard)
+                // enemyСards.push(newCard)
                 cards2.push(item)
                 setDifference2(prevState => prevState - Number(cardValue))
             })
