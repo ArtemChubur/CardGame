@@ -160,11 +160,11 @@ const Table = () => {
 
     function setVictoryRound() {
         let pl
-        if (difference < 0 && difference2 >= 0) {
+        if (difference <= 0 && difference2 >= 0) {
             pl = ('Игрок 2 win')
-        } else if (difference2 < 0 && difference >= 0) {
+        } else if (difference2 <= 0 && difference >= 0) {
             pl = ('Игрок 1 win')
-        } else if ((difference < 0 && difference2 < 0) || (difference === difference2)) {
+        } else if ((difference <= 0 && difference2 < 0) || (difference === difference2)) {
             pl = ('Ничья')
         } else if (difference2 < difference) {
             pl = ('Игрок 1 win')
