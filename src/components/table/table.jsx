@@ -172,8 +172,9 @@ const Table = () => {
             pl = ('Игрок 1 win')
         }
         setHideEnemyCards(false)
-        console.log(cards2);
         setWinner(pl)
+	console.log(difference)
+	console.log(difference2)
     }
 
     useEffect(() => {
