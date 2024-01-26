@@ -1,6 +1,6 @@
 # [Сайт - карточная игра "21"](https://chubur-21ochko.vercel.app/)
 
-Это сайт с игрой "21". Сделан с помошью API [deckofcardsapi](https://deckofcardsapi.com). Также присутствует адаптив под телефон.
+Это сайт с игрой "21". Сделан с помошью API [deckofcardsapi](https://deckofcardsapi.com) и библиотеки Axios. Также присутствует адаптив под телефон. 
 
 ## Правила:
 
